@@ -570,7 +570,7 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
     whenNotPaused whenPermitted(from) whenPermitted(msg.sender) returns (bool) {
         require(!lockerAddrs[from]);
 
-        if(timelock) {
+        if(timelock) { 
 			//lockValues[from]이 0보다 큰 경우
             if(lockValues[from] > 0) {
                 

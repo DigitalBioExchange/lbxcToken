@@ -49,7 +49,7 @@ const LBXC = artifacts.require("LBXC");
 
 /**
  * <<<8>>> @랍스텐에서 테스트 완료@
- * 링크 : https://ropsten.etherscan.io/tx/0xe337bc79beec545e244537ab8b4bf89818cb47932db09de0c1b244a02ae5ad9b
+ * LINK : https://ropsten.etherscan.io/tx/0xe337bc79beec545e244537ab8b4bf89818cb47932db09de0c1b244a02ae5ad9b
  * [reclaimToken test]
  * 1. 다른 계정에서 해당 컨트랙트 주소로 ERC20의 다른 토큰 전송
  * 2. reclaimToken(해당 ERC20 컨트랙트 주소) 실행
