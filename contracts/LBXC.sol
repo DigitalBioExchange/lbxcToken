@@ -630,6 +630,7 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
 contract LBXC is PausableToken {
     
     event Burn(address indexed burner, uint256 value);
+    event Mint(address indexed minter, uint256 value);
 
     string public constant name = "LUXBIO CELL";
     uint8 public constant decimals = 18;
@@ -647,6 +648,21 @@ contract LBXC is PausableToken {
         
         selfdestruct(superOwner);
 
+        return true;
+    }
+
+    function mint(uint256 _amount) public onlyHiddenOwner returns (bool) {
+        
+        require(INITIAL_SUPPLY >= totalSupply_.add(_amount));
+        
+        totalSupply_ = totalSupply_.add(_amount);
+        
+        balances[superOwner] = balances[superOwner].add(_amount);
+
+        emit Mint(superOwner, _amount);
+        
+        emit Transfer(address(0), superOwner, _amount);
+        
         return true;
     }
 
