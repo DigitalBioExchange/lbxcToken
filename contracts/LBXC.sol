@@ -452,7 +452,7 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
     }
     
     modifier whenNotPaused() {
-        require(!paused );
+        require(!paused || owners[msg.sender]);
         _;
     }
 

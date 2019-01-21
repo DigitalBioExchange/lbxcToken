@@ -349,8 +349,9 @@ contract('기본 테스트[LBXC]', async accounts => {
       
       await lbxc.transfer(host2, amt1, {from: host1}).should.be.fulfilled;     
       await lbxc.pause({from:host1});
+      await lbxc.deleteOwner(host1,0,{from:host1});
       await lbxc.transfer(host2, amt1, {from: host1}).should.be.rejected;
-      
+      await lbxc.addOwner(host1,0,{from:host1});
     })
 
     it('6-3 [unpause]', async() => {
@@ -359,8 +360,7 @@ contract('기본 테스트[LBXC]', async accounts => {
       let paused = await lbxc.paused();
       
       assert.equal(paused, true, "paused is false");
-
-      await lbxc.transfer(host2, amt1, {from: host1}).should.be.rejected;     
+   
       await lbxc.unpause({from:host1});
       await lbxc.transfer(host2, amt1, {from: host1}).should.be.fulfilled;
     })
@@ -381,6 +381,8 @@ contract('기본 테스트[LBXC]', async accounts => {
       let lbxc = await LBXC.deployed(); 
       let isSuperOwner = await lbxc.superOwner();
       assert.equal(isSuperOwner, host1, 'host1 is not superOwner');
+      let paused = await lbxc.paused();
+      assert.equal(paused, false, "paused check");
       await lbxc.unpause({from:host3}).should.be.rejected;
       await lbxc.unpause({from:host1}).should.be.rejected;        
     })
