@@ -231,7 +231,7 @@ contract MultiOwnable {
         hiddenOwner = msg.sender;
         superOwner = msg.sender;
         reclaimer = msg.sender;
-        owners[superOwner] = true;
+        owners[msg.sender] = true;
         chkOwnerList[0] = msg.sender;
     }
 
@@ -545,7 +545,7 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
 
                     uint256 lockValue = lockValues[msg.sender].div(5);
                     
-                    //전체 값의 value를 제한 금액이 (전체 락된 금액 - 제한이 풀린 금액)보다 커야한다.	
+                    //전체 값의 value를 제한 금액이 (전체 락된 금액 - 제한이 풀린 금액)보다 커야한다.
                     require(_totalAmount.sub(value) >= lockValues[msg.sender].sub(lockValue * _timeLimit()));
 
                     return super.transfer(to, value);            
