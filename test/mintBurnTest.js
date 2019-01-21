@@ -1,6 +1,6 @@
 const LBXC = artifacts.require("LBXC");
 
-contract('토큰락 테스트[LBXC]', async accounts => {
+contract('MINT&BURN TEST[LBXC]', async accounts => {
     
     const BigNumber = web3.BigNumber;
 

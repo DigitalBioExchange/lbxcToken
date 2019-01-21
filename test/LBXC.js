@@ -120,7 +120,7 @@ const LBXC = artifacts.require("LBXC");
   * 11. totalSupply 확인
  */
 
-contract('기본 테스트[LBXC]', async accounts => {
+contract('BASIC TEST [LBXC]', async accounts => {
   
   const timeTravel = function (time) {
     return new Promise((resolve, reject) => {
@@ -394,7 +394,7 @@ contract('기본 테스트[LBXC]', async accounts => {
       let monthInSeconds = 2.6784e+6;
       
       openingTime = openingTime.toNumber();
-      console.log('      9) 현재 시간 : ', openingTime);  
+      console.log('      9) current Time : ', openingTime);  
       
       timeTravel(monthInSeconds);
 
@@ -403,7 +403,7 @@ contract('기본 테스트[LBXC]', async accounts => {
       openingTime = await lbxc.openingTime();
       openingTime = openingTime.toNumber();
       
-      console.log('      9) 변경된 시간 : ', openingTime);  
+      console.log('      9) changed Time : ', openingTime);  
     })
   })
 /**

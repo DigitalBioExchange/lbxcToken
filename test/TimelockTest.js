@@ -1,7 +1,7 @@
 const LBXC = artifacts.require("LBXC");
 
 //1달이 지나지 않았을 때, 토큰 출금.
-contract('토큰락 테스트[LBXC]', async accounts => {
+contract('TIMELOCK TEST [LBXC]', async accounts => {
   
     const timeTravel = function (time) {
       return new Promise((resolve, reject) => {
