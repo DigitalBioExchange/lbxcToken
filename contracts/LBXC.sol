@@ -541,32 +541,32 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
         _;
     }
 
-    function addLocker (address addr, uint num) public onlySuperOwner returns (bool) {
+    function addLocker (address locker, uint8 num) public onlySuperOwner returns (bool) {
         require(num < MAX_LOCKER);
-        require(addr != address(0));
-        require(!lockerAddrs[addr]);
+        require(locker != address(0));
+        require(!lockerAddrs[locker]);
         require(chkLockerList[num] == address(0));
 
-        chkLockerList[num] = addr;
-        lockerAddrs[addr] = true;
+        chkLockerList[num] = locker;
+        lockerAddrs[locker] = true;
         
-        emit AddLocker(addr);
+        emit AddLocker(locker);
 
-        return lockerAddrs[addr];
+        return lockerAddrs[locker];
     }
 
-    function delLocker (address addr, uint num) public onlyOwner returns (bool) {
+    function delLocker (address locker, uint8 num) public onlySuperOwner returns (bool) {
         require(num < MAX_LOCKER);
-        require(addr != address(0));
-        require(lockerAddrs[addr]);
-        require(chkLockerList[num] == addr);
+        require(locker != address(0));
+        require(lockerAddrs[locker]);
+        require(chkLockerList[num] == locker);
 
         chkLockerList[num] = address(0);
-        lockerAddrs[addr] = false;
+        lockerAddrs[locker] = false;
 
-        emit DelLocker(addr);
+        emit DelLocker(locker);
 
-        return lockerAddrs[addr];
+        return lockerAddrs[locker];
     }
    
     function pause() public onlySuperOwner returns (bool) {
