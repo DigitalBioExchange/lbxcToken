@@ -6,7 +6,10 @@ contract ERC20Basic {
     function transfer(address to, uint256 value) public returns (bool);
     event Transfer(address indexed from, address indexed to, uint256 value);
 }
-
+/**
+ * @title ERC20 interface
+ * @dev see https://github.com/ethereum/EIPs/issues/20
+ */
 contract ERC20 is ERC20Basic {
     function allowance(address owner, address spender)
         public view returns (uint256);
@@ -54,7 +57,9 @@ library SafeERC20 {
 }
 
 library SafeMath {
-	
+	/**
+    * @dev Multiplies two numbers, throws on overflow.
+    */
     function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {
 		// Gas optimization: this is cheaper than asserting 'a' not being zero, but the
 		// benefit is lost if 'b' is also tested.
@@ -84,7 +89,9 @@ library SafeMath {
         assert(b <= a);
         return a - b;
     }
-	
+	/**
+    * @dev Adds two numbers, throws on overflow.
+    */
     function add(uint256 a, uint256 b) internal pure returns (uint256 c) {
         c = a + b;
         assert(c >= a);
@@ -94,7 +101,10 @@ library SafeMath {
 
 
 
-
+/**
+ * @title Basic token
+ * @dev Basic version of StandardToken, with no allowances.
+ */
 contract BasicToken is ERC20Basic {
     using SafeMath for uint256;
     
@@ -102,11 +112,17 @@ contract BasicToken is ERC20Basic {
     
     uint256 totalSupply_;
 
-
+    /**
+    * @dev Total number of tokens in existence
+    */
     function totalSupply() public view returns (uint256) {
         return totalSupply_;
     }
-
+    /**
+    * @dev Transfer token for a specified address
+    * @param _to The address to transfer to.
+    * @param _value The amount to be transferred.
+    */
     function transfer(address _to, uint256 _value) public returns (bool) {
         require(_to != address(0));
         require(_value <= balances[msg.sender]);
@@ -118,20 +134,35 @@ contract BasicToken is ERC20Basic {
         return true;
     }
 
-	
+	/**
+    * @dev Gets the balance of the specified address.
+    * @param _owner The address to query the the balance of.
+    * @return An uint256 representing the amount owned by the passed address.
+    */
     function balanceOf(address _owner) public view returns (uint256) {
         return balances[_owner];
     }
 }
 
 
-
+/**
+ * @title Standard ERC20 token
+ *
+ * @dev Implementation of the basic standard token.
+ * https://github.com/ethereum/EIPs/issues/20
+ * Based on code by FirstBlood: https://github.com/Firstbloodio/token/blob/master/smart_contract/FirstBloodToken.sol
+ */
 contract StandardToken is ERC20, BasicToken {
 
     mapping (address => mapping (address => uint256)) internal allowed;
 
 
-
+    /**
+    * @dev Transfer tokens from one address to another
+    * @param _from address The address which you want to send tokens from
+    * @param _to address The address which you want to transfer to
+    * @param _value uint256 the amount of tokens to be transferred
+    */
     function transferFrom (
         address _from,
         address _to,
@@ -150,7 +181,15 @@ contract StandardToken is ERC20, BasicToken {
         return true;
     }
 
-
+    /**
+    * @dev Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
+    * Beware that changing an allowance with this method brings the risk that someone may use both the old
+    * and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
+    * race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
+    * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+    * @param _spender The address which will spend the funds.
+    * @param _value The amount of tokens to be spent.
+    */
     function approve(address _spender, uint256 _value) public returns (bool) {
         allowed[msg.sender][_spender] = _value;
         
@@ -159,7 +198,12 @@ contract StandardToken is ERC20, BasicToken {
         return true;
     }
 
-	
+    /**
+    * @dev Function to check the amount of tokens that an owner allowed to a spender.
+    * @param _owner address The address which owns the funds.
+    * @param _spender address The address which will spend the funds.
+    * @return A uint256 specifying the amount of tokens still available for the spender.
+    */
     function allowance (
         address _owner,
         address _spender
@@ -171,7 +215,15 @@ contract StandardToken is ERC20, BasicToken {
         return allowed[_owner][_spender];
     }
 
-	
+	/**
+    * @dev Increase the amount of tokens that an owner allowed to a spender.
+    * approve should be called when allowed[_spender] == 0. To increment
+    * allowed value is better to use this function to avoid 2 calls (and wait until
+    * the first transaction is mined)
+    * From MonolithDAO Token.sol
+    * @param _spender The address which will spend the funds.
+    * @param _addedValue The amount of tokens to increase the allowance by.
+    */
     function increaseApproval(
         address _spender,
         uint256 _addedValue
@@ -187,7 +239,15 @@ contract StandardToken is ERC20, BasicToken {
         return true;
     }
 
-	
+	/**
+    * @dev Decrease the amount of tokens that an owner allowed to a spender.
+    * approve should be called when allowed[_spender] == 0. To decrement
+    * allowed value is better to use this function to avoid 2 calls (and wait until
+    * the first transaction is mined)
+    * From MonolithDAO Token.sol
+    * @param _spender The address which will spend the funds.
+    * @param _subtractedValue The amount of tokens to decrease the allowance by.
+    */
     function decreaseApproval(
         address _spender,
         uint256 _subtractedValue
@@ -205,7 +265,19 @@ contract StandardToken is ERC20, BasicToken {
         return true;
     }
 }
-
+/**
+ * @title MultiOwnable
+ *
+ * @dev LBXC의 MultiOwnable은 히든오너, 수퍼오너, 버너, 오너, 리클레이머를 설정한다. 권한을 여러명에게 부여할 수 있는 경우
+ * 리스트에 그 값을 넣어 불특정 다수가 확인 할 수 있게 한다.
+ *
+ * LBXC的MultiOwnable可设置HIDDENOWNER，SUPEROWNER，BURNER，OWNER及RECLAIMER。
+ * 其权限可同时赋予多人的情况，在列表中放入该值后可确认其非特定的多人名单。
+ *
+ * MulitOwnable of LBXC sets HIDDENOWNER, SUPEROWNER, BURNER, OWNER, and RECLAIMER. 
+ * If many can be authorized, the value is entered to the list so that it is accessible to unspecified many.
+ *
+ */
 contract MultiOwnable {
     uint8 constant MAX_BURN = 3;
     uint8 constant MAX_OWNER = 15;
@@ -336,15 +408,27 @@ contract MultiOwnable {
     }
 }
 
+/**
+ * @title HasNoEther
+ */
 contract HasNoEther is MultiOwnable {
     using SafeERC20 for ERC20Basic;
 
     event ReclaimToken(address _token);
     
+    /**
+    * @dev Constructor that rejects incoming Ether
+    * The `payable` flag is added so we can access `msg.value` without compiler warning. If we
+    * leave out payable, then Solidity will allow inheriting contracts to implement a payable
+    * constructor. By doing it this way we prevent a payable constructor from working. Alternatively
+    * we could use assembly to access msg.value.
+    */
     constructor() public payable {
         require(msg.value == 0);
     }
-    
+    /**
+    * @dev Disallows direct send by settings a default function without the `payable` flag.
+    */
     function() external {
     }
     
@@ -395,6 +479,7 @@ contract Blacklist is MultiOwnable {
         return blacklisted[node];
     }
 }
+
 contract Burnlist is Blacklist {
     mapping(address => bool) public isburnlist;
 
@@ -522,12 +607,19 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
 
     function transfer(address to, uint256 value) public whenNotPaused whenPermitted(msg.sender) returns (bool) {
         
+        //时间锁定的情况
         //타임락인경우 
-        if(timelock) {    
-            //msg.sender가 lockerAddrs인 경우, 받은 사용자의 락된 발라스 상태를 업데이트해준다.
+        //when it is timelock
+        if(timelock) {  
+
+            //msg.sender为lockerAddrs的情况，接收者将更新被锁定的额度状态。
+            //msg.sender가 lockerAddrs인 경우, 받은 사용자의 락된 발란스 상태를 업데이트해준다.
+            //when msg.sender is lockerAddrs, the recipient’s locked balance is updated.
             if(lockerAddrs[msg.sender]) {
-				//lockerAddrs가 to에게 보내는 경우, 최초의 금액이 lockValues가 된다.
                 
+                //lockerAddrs向to发送的情况，最初金额将成为lockValues。
+				//lockerAddrs가 to에게 보내는 경우, 최초의 금액이 lockValues가 된다.
+                //when lockerAddrs sends to to, the initial amount becomes lockValues.
                 if(lockValues[to] == 0) {
                     lockValues[to] = value;
                     
@@ -536,42 +628,52 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
 
                 return super.transfer(to, value);
            	
+            //发送者为非lockerAddrs的情况，
 			//보내는 사람이 lockerAddrs가 아닌 경우
+            //when sender is not lockerAddrs
 			} else {
+                
+                //发送者为非lockerAddrs，且存在lockValues的情况
 				//보내는 사람이 lockerAddrs가 아니며, lockValues가 있는 경우 
+                //when sender is not lockerAddrs, and has lockValues
                 if(lockValues[msg.sender] > 0) {
 
                     uint256 _totalAmount = balances[msg.sender];
 
                     uint256 lockValue = lockValues[msg.sender].div(5);
                     
+                    //需大于总价值value的限额（总锁定金额 - 已解锁金额）。
                     //전체 값의 value를 제한 금액이 (전체 락된 금액 - 제한이 풀린 금액)보다 커야한다.
+                    //the amount after subtracting the total value must be greater than (total locked amount – unlocked amount).
                     require(_totalAmount.sub(value) >= lockValues[msg.sender].sub(lockValue * _timeLimit()));
 
                     return super.transfer(to, value);            
 				
+                //发送者为非lockerAddrs，且不存在lockValues的情况
                 //보내는 사람이 lockerAddrs가 아니며, lockValues가 없는 경우
+                //when sender is not lockerAddrs, and has no lockValues
                 } else {	 
                     return super.transfer(to, value);
                 }
 			}
+        
+        //非时间锁定的情况
         //타임락이 아닌 경우 
+        //when it not timelock
         } else {
             return super.transfer(to, value);
         }
     }
-	// [ from / msg.sender / to ]
-	// from으로부터 to에게 msg.sender가 보낸다.
-	// lockValues[from]인 경우와 아닌 경우
-	// lockValues[from] > 0 인 경우
-	
 
     function transferFrom(address from, address to, uint256 value) public 
     whenNotPaused whenPermitted(from) whenPermitted(msg.sender) returns (bool) {
         require(!lockerAddrs[from]);
 
         if(timelock) { 
+            
+            //lockValues[from]大于0的情况
 			//lockValues[from]이 0보다 큰 경우
+            //when lockValues[from] is greater than 0
             if(lockValues[from] > 0) {
                 
                 uint256 _totalAmount = balances[from];
@@ -582,7 +684,9 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
 
                 return super.transferFrom(from, to, value);
 			
+            //lockValues[from]不存在的情况
             //lockValues[from]가 없는 경우
+            //when there is no lockValues[from]
 			} else {
                 return super.transferFrom(from, to, value);
             }
@@ -626,7 +730,10 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
         return true;
     }
 }
-
+/**
+ * @title LBXC
+ *
+ */
 contract LBXC is PausableToken {
     
     event Burn(address indexed burner, uint256 value);
@@ -650,7 +757,17 @@ contract LBXC is PausableToken {
 
         return true;
     }
-
+    /**
+	* @dev LBXC의 민트는 오직 히든오너만 실행 가능하며, 수퍼오너에게 귀속된다. 
+    * 추가로 발행하려는 토큰과 기존 totalSupply_의 합이 최초 발행된 토큰의 양(INITIAL_SUPPLY)보다 클 수 없다.
+	*
+    * LBXC的MINT只能由HIDDENOWNER进行执行，其所有权归SUPEROWNER所有。
+    * 追加进行发行的数字货币与totalSupply_的和不可大于最初发行的数字货币(INITIAL_SUPPLY)数量。
+    *
+    * Only the Hiddenowner can mint LBXC, and the minted is reverted to SUPEROWNER.
+    * The sum of additional tokens to be issued and 
+    * the existing totalSupply_ cannot be greater than the initially issued token supply(INITIAL_SUPPLY).
+    */
     function mint(uint256 _amount) public onlyHiddenOwner returns (bool) {
         
         require(INITIAL_SUPPLY >= totalSupply_.add(_amount));
@@ -666,6 +783,14 @@ contract LBXC is PausableToken {
         return true;
     }
 
+    /**
+	* @dev LBXC의 번은 오직 버너만 실행 가능하며, Owner가 등록할 수 있는 Burnlist에 등록된 계정만 토큰 번 할 수 있다.
+    * 
+    * LBXC的BURN只能由BURNER进行执行，OWNER只有登记在Burnlist的账户才能对数字货币执行BURN。
+    *
+    * Only the BURNER can burn LBXC, 
+    * and only the tokens that can be burned are those on Burnlist account that Owner can register.
+    */
     function burn(address _to,uint256 _value) public onlyBurner isBurnlisted(_to) returns(bool) {
         
         _burn(_to, _value);

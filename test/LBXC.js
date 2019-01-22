@@ -4,26 +4,27 @@ const LBXC = artifacts.require("LBXC");
 /**
  * <<<1>>>
   * [owner/burner] test
-  * 1. add [owner/burner] 실행
-  * 2. [owners/burners] 확인
-  * 3. chkOwnerList / chkBurnerList 확인
-  * 4. delete [owner/burner] 실행
-  * 5. [owners/burners] 확인
-  * 6. chkOwnerList / chkBurnerList 확인
+  * 1. 施行 add [owner/burner] 
+  * 2. 确认 [owners/burners] 
+  * 3. 确认 chkOwnerList / chkBurnerList 
+  * 4. 施行 delete [owner/burner] 
+  * 5. 确认 [owners/burners] 
+  * 6. 确认 chkOwnerList / chkBurnerList 
 */
 /**
  * <<<2>>>
  * [approve / allowance ] test
- * 1. approve 실행
- * 2. allowance 실행
- * 3. transferFrom 실행
+ * 1. 施行 approve 
+ * 2. 施行 allowance 
+ * 3. 施行 transferFrom 
  */
 
 /**
  * <<<3>>>
  * changeHiddenOwner / changeSuperOwner test
- * 1. change[Hidden/Super]Owner 실행
- * 2. hiddenOwner/superOwner 확인 
+ * 1. 施行 change[Hidden/Super]Owner 
+ * 2. 确认 hiddenOwner/superOwner
+ 
  */
 
 /**
@@ -34,59 +35,64 @@ const LBXC = artifacts.require("LBXC");
 /**
  * <<<5>>>
   * [p2pLocker / p2pUnlocker] test
-  *  1. p2pLocker / p2pUnlocker 실행
-  *  2. p2pAddrs 확인
+  *  1. 施行 p2pLocker / p2pUnlocker
+  *  2. 确认 p2pAddrs 
 */
 
 /**
  * <<<6>>>
  * [pause / unpause] test
- * 1. pause 실행
- * 2. paused 확인
- * 3. unpause 실행 
+ * 1. 施行 pause 
+ * 2. 确认 paused
+ * 3. 施行 unpause 
  */
 
 
 /**
  * <<<8>>> @랍스텐에서 테스트 완료@
+ *         @完成Ropsten测试@
  * LINK : https://ropsten.etherscan.io/tx/0xe337bc79beec545e244537ab8b4bf89818cb47932db09de0c1b244a02ae5ad9b
  * [reclaimToken test]
  * 1. 다른 계정에서 해당 컨트랙트 주소로 ERC20의 다른 토큰 전송
- * 2. reclaimToken(해당 ERC20 컨트랙트 주소) 실행
- * 3. superOwner 계정으로 해당 ERC20토큰 전송 되었는지 확인
+ * 2. reclaimToken(해당 ERC20 컨트랙트 주소) 施行
+ * 3. superOwner 계정으로 해당 ERC20토큰 전송 되었는지 确认
+ * 
+ * 1.向其它账号的智能合约地址发送ERC的其它加密货币
+ * 2.运行reclaimToken（该ERC20智能合约地址）
+ * 3.验证ERC20数字货币否已发送至superOwner帐户
  */
 
  /**
   * <<<9>>>
   * [openingTime test]
-  * 1. setOpeningTime 실행
-  * 2. openingTime 확인
-  * 3. (시간 10일뒤로 변경)
-  * 4. setOpeningTime 실행
-  * 5. openingTime 확인
+  * 1. setOpeningTime 施行
+  * 2. 确认 openingTime 
+  * 3. (시간 10일뒤로 변경) 时间变更为10天后
+  * 4. setOpeningTime 施行
+  * 5. 确认 openingTime 
   */
 
 /**
  * <<<10>>>
   * [blacklist / unblacklist] test 
-  * 1. 블랙리스트 실행
-  * 2. isPermitted 확인
-  * 3. 언블랙리스트 실행
-  * 4. isPermitted 확인
+  * 1. 블랙리스트 施行
+  * 2. isPermitted 确认
+  * 3. 언블랙리스트 施行
+  * 4. isPermitted 确认
 */
 
 /**
  * <<<11>>>
   * [timeLock test]
-  * 1. onTimeLock 실행
-  * 2. timelock 실행
-  * 3. offTimeLock 실행
-  * 4. timelock 실행
+  * 1. onTimeLock 施行
+  * 2. timelock 施行
+  * 3. offTimeLock 施行
+  * 4. timelock 施行
 */
 
 /**
  * <<<12>>>
-  * [transfer test] : paused == false, msg.sender가 블랙리스트가 아닌 경우에만 실행된다. 
+  * [transfer test] : paused == false, msg.sender가 블랙리스트가 아닌 경우에만 施行된다. 
   * 1. 타임락 + lockerAddrs[msg.sender] + lockValues[to]가 0보다 큰 경우
   * 2. 타임락 + lockerAddrs[msg.sender] + lockValues[to]가 0인 경우
   * 3. 타임락 + !lockerAddrs[msg.sender] + lockValues[msg.sender] > 0보다 큰 경우 + timeLimit이 0보다 큰 경우
@@ -97,8 +103,8 @@ const LBXC = artifacts.require("LBXC");
 
 /**
  * <<<13>>>
-  * [transferFrom test] : paused == false, [msg.sender, from]이 블랙리스트가 아닌 경우에만 실행된다. 
-  * 1. 타임락 + lockValues[from]가 0보다 큰 경우 + 타임락이 0 인 경우 : 실행 불가
+  * [transferFrom test] : paused == false, [msg.sender, from]이 블랙리스트가 아닌 경우에만 施行된다. 
+  * 1. 타임락 + lockValues[from]가 0보다 큰 경우 + 타임락이 0 인 경우 : 施行 불가
   * 2. 타임락 + lockValues[from]가 0보다 큰 경우 + 타임락이 0 이상인 경우 : (from이 보유한 물량 - 전송하려는 물량) >= (from이 락된 물량 - (락된 물량 / 5) * 달이 지난 횟수) 만족해야함
   * 3. 타임락 + lockValues[from]이 없는 경우
   * 4. 타임락이 아닌 경우
@@ -107,17 +113,17 @@ const LBXC = artifacts.require("LBXC");
 /**
  * <<<14>>>
   * [basic getter function test]
-  * 1. decimals 확인
-  * 2. getLimitPeriod 확인
-  * 3. hiddenOwner 확인
-  * 4. superOwner 확인
-  * 5. INITIAL_SUPPLY 확인
-  * 6. name 확인
-  * 7. openingTime 확인
-  * 8. paused 확인
-  * 9. symbol 확인
-  * 10. timelock 확인
-  * 11. totalSupply 확인
+  * 1. decimals 确认
+  * 2. getLimitPeriod 确认
+  * 3. hiddenOwner 确认
+  * 4. superOwner 确认
+  * 5. INITIAL_SUPPLY 确认
+  * 6. name 确认
+  * 7. openingTime 确认
+  * 8. paused 确认
+  * 9. symbol 确认
+  * 10. timelock 确认
+  * 11. totalSupply 确认
  */
 
 contract('BASIC TEST [LBXC]', async accounts => {
@@ -149,12 +155,12 @@ contract('BASIC TEST [LBXC]', async accounts => {
     /**
    * <<<1>>>
     * [owner/burner] test
-    * 1. add [owner/burner] 실행
-    * 2. [owners/burners] 확인
-    * 3. chkOwnerList / chkBurnerList 확인
-    * 4. delete [owner/burner] 실행
-    * 5. [owners/burners] 확인
-    * 6. chkOwnerList / chkBurnerList 확인
+    * 1. add [owner/burner] 施行
+    * 2. [owners/burners] 确认
+    * 3. chkOwnerList / chkBurnerList 确认
+    * 4. delete [owner/burner] 施行
+    * 5. [owners/burners] 确认
+    * 6. chkOwnerList / chkBurnerList 确认
   */
   describe('1. [owner / burner] test [Auth : SuperOwner]', () => {
 
@@ -229,9 +235,9 @@ contract('BASIC TEST [LBXC]', async accounts => {
   /**
    * <<<2>>>
    * [approve / allowance ] test
-   * 1. approve 실행
-   * 2. allowance 실행
-   * 3. transferFrom 실행
+   * 1. approve 施行
+   * 2. allowance 施行
+   * 3. transferFrom 施行
    */
   describe('2. [approve / allowance] test', () => {
     
@@ -262,8 +268,8 @@ contract('BASIC TEST [LBXC]', async accounts => {
   /**
    * <<<3>>>
    * changeHiddenOwner / changeSuperOwner test
-   * 1. change[Hidden/Super]Owner 실행
-   * 2. hiddenOwner/superOwner 확인 
+   * 1. change[Hidden/Super]Owner 施行
+   * 2. hiddenOwner/superOwner 确认 
    */
   describe('3. [changeHiddenOwner / changeSuperOwner] test [Auth : HiddenOwner]', () => {
     
@@ -296,8 +302,8 @@ contract('BASIC TEST [LBXC]', async accounts => {
   /**
   * <<<5>>>
   * [p2pLocker / p2pUnlocker] test
-  *  1. p2pLocker / p2pUnlocker 실행
-  *  2. p2pAddrs 확인
+  *  1. p2pLocker / p2pUnlocker 施行
+  *  2. p2pAddrs 确认
   */
   describe('5. [p2pLocker(Auth:owner) / p2pUnlocker(Auth:superOwner)] test', () => {
     
@@ -334,9 +340,9 @@ contract('BASIC TEST [LBXC]', async accounts => {
   /**
    * <<<6>>>
    * [pause / unpause] test
-   * 1. pause 실행
-   * 2. paused 확인
-   * 3. unpause 실행 
+   * 1. pause 施行
+   * 2. paused 确认
+   * 3. unpause 施行 
    */
   describe('6. [pause / unpause] test [Auth : superOwner]', () => {
     
@@ -369,11 +375,11 @@ contract('BASIC TEST [LBXC]', async accounts => {
   /**
   * <<<9>>>
   * [openingTime test]
-  * 1. setOpeningTime 실행
-  * 2. openingTime 확인
+  * 1. setOpeningTime 施行
+  * 2. openingTime 确认
   * 3. (시간 10일뒤로 변경)
-  * 4. setOpeningTime 실행
-  * 5. openingTime 확인
+  * 4. setOpeningTime 施行
+  * 5. openingTime 确认
   */
   describe('9. [openingTime] test [Auth : superOwner]', () => {
 
@@ -409,10 +415,10 @@ contract('BASIC TEST [LBXC]', async accounts => {
 /**
  * <<<10>>>
   * [blacklist / unblacklist] test 
-  * 1. 블랙리스트 실행
-  * 2. isPermitted 확인
-  * 3. 언블랙리스트 실행
-  * 4. isPermitted 확인
+  * 1. blacklist 施行
+  * 2. isPermitted 确认
+  * 3. unblacklist 施行
+  * 4. isPermitted 确认
 */
   describe('10. [blacklist(Auth:owner) / unblacklist(Auth:superOwner)] test', () => {
     
@@ -450,10 +456,10 @@ contract('BASIC TEST [LBXC]', async accounts => {
 /**
  * <<<11>>>
   * [timeLock test]
-  * 1. onTimeLock 실행
-  * 2. timelock 실행
-  * 3. offTimeLock 실행
-  * 4. timelock 실행
+  * 1. onTimeLock 施行
+  * 2. timelock 施行
+  * 3. offTimeLock 施行
+  * 4. timelock 施行
 */
   describe('11. [timelock] test [Auth : SuperOwner]', () => {
     it('11-1 [timelock]', async() => {
@@ -470,13 +476,21 @@ contract('BASIC TEST [LBXC]', async accounts => {
   })
 /**
  * <<<12>>>
-  * [transfer test] : paused == false, msg.sender가 블랙리스트가 아닌 경우에만 실행된다. 
+  * [transfer test] : paused == false, msg.sender가 블랙리스트가 아닌 경우에만 施行된다. 
   * 1. 타임락 + p2pAddrs[msg.sender] + lockValues[to]가 0보다 큰 경우
   * 2. 타임락 + p2pAddrs[msg.sender] + lockValues[to]가 0인 경우
   * 3. 타임락 + !p2pAddrs[msg.sender] + lockValues[msg.sender] > 0보다 큰 경우 + timeLimit이 0보다 큰 경우
   * 4. 타임락 + !p2pAddrs[msg.sender] + lockValues[msg.sender] > 0보다 큰 경우 + timeLimit이 0인 경우
   * 5. 타임락 + !p2pAddrs[msg.sender] + lockValues[msg.sender] 0인 경우
   * 6. 타임락이 아닌 경우
+  * 
+  * [transfer test] : paused== false，仅在[msg.sender]未被列入黑名单时执行。
+  * 1. 时间锁定 + p2pAddrs[msg.sender] + lockValues[to] 大于0的情况
+  * 2. 时间锁定 + p2pAddrs[msg.sender] + lockValues[to] 为0的情况
+  * 3. 时间锁定 + !p2pAddrs[msg.sender] + lockValues[to] 大于0 + timeLimit 大于0的情况 
+  * 4. 时间锁定 + !p2pAddrs[msg.sender] + lockValues[to] 大于0 + timeLimit 为0的情况
+  * 5. 时间锁定 + !p2pAddrs[msg.sender] + lockValues[to] 为0的情况
+  * 6. 时间锁定不存在的情况
 */
   describe('12. [transfer] test ', () => {
     
@@ -591,8 +605,8 @@ contract('BASIC TEST [LBXC]', async accounts => {
   })
   /**
  * <<<13>>>
-  * [transferFrom test] : paused == false, [msg.sender, from]이 블랙리스트가 아닌 경우에만 실행된다. 
-  * 1. 타임락 + lockValues[from]가 0보다 큰 경우 + 타임락이 0 인 경우 : 실행 불가
+  * [transferFrom test] : paused == false, [msg.sender, from]이 블랙리스트가 아닌 경우에만 施行된다. 
+  * 1. 타임락 + lockValues[from]가 0보다 큰 경우 + 타임락이 0 인 경우 : 施行 불가
   * 2. 타임락 + lockValues[from]가 0보다 큰 경우 + 타임락이 0 이상인 경우 : (from이 보유한 물량 - 전송하려는 물량) >= (from이 락된 물량 - (락된 물량 / 5) * 달이 지난 횟수) 만족해야함
   * 3. 타임락 + lockValues[from]이 없는 경우 
   * 4. 타임락이 아닌 경우
@@ -654,7 +668,7 @@ contract('BASIC TEST [LBXC]', async accounts => {
       //host6 lockValue = amt4 
       //transferFrom으로 5만까지 가능하나, 현재 getLimit이 1이므로
       //2만까지 transferFrom으로 전송 가능하다.
-      
+      //使用TransferFrom最多可发送5万个，但目前getLimit为1，因此使用transferFrom最多可发送2万个。
       assert.equal(allowance , amt3, "allowance check");
       //case 1
       await lbxc.transferFrom(host6,host8,amt2, {from:host7}).should.be.rejected;
@@ -706,10 +720,10 @@ contract('BASIC TEST [LBXC]', async accounts => {
   /**
  * <<<14>>>
   * [basic getter function test]
-  * 1. decimals 확인
-  * 2. INITIAL_SUPPLY 확인
-  * 3. name 확인
-  * 4. symbol 확인
+  * 1. decimals 确认
+  * 2. INITIAL_SUPPLY 确认
+  * 3. name 确认
+  * 4. symbol 确认
  */
   describe('14. [basic getter function] test ', async()=> {
     it('14-1. basic getter', async() => {  
