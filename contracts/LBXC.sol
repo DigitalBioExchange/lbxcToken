@@ -268,13 +268,13 @@ contract StandardToken is ERC20, BasicToken {
 /**
  * @title MultiOwnable
  *
- * @dev LBXC의 MultiOwnable은 히든오너, 수퍼오너, 버너, 오너, 리클레이머를 설정한다. 권한을 여러명에게 부여할 수 있는 경우
+ * @dev GOLDTX의 MultiOwnable은 히든오너, 수퍼오너, 버너, 오너, 리클레이머를 설정한다. 권한을 여러명에게 부여할 수 있는 경우
  * 리스트에 그 값을 넣어 불특정 다수가 확인 할 수 있게 한다.
  *
- * LBXC的MultiOwnable可设置HIDDENOWNER，SUPEROWNER，BURNER，OWNER及RECLAIMER。
+ * GOLDTX的MultiOwnable可设置HIDDENOWNER，SUPEROWNER，BURNER，OWNER及RECLAIMER。
  * 其权限可同时赋予多人的情况，在列表中放入该值后可确认其非特定的多人名单。
  *
- * MulitOwnable of LBXC sets HIDDENOWNER, SUPEROWNER, BURNER, OWNER, and RECLAIMER. 
+ * MulitOwnable of GOLDTX sets HIDDENOWNER, SUPEROWNER, BURNER, OWNER, and RECLAIMER. 
  * If many can be authorized, the value is entered to the list so that it is accessible to unspecified many.
  *
  */
@@ -530,7 +530,7 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
     event Unpaused(address addr);
     event AddLocker(address addr);
     event DelLocker(address addr);
-    event OpenedTime();
+    event OpenedTime(uint256 timestamp);
 
     constructor() public {
         openingTime = block.timestamp;
@@ -640,7 +640,7 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
 
                     uint256 _totalAmount = balances[msg.sender];
 
-                    uint256 lockValue = lockValues[msg.sender].div(5);
+                    uint256 lockValue = lockValues[msg.sender].div(10);
                     
                     //需大于总价值value的限额（总锁定金额 - 已解锁金额）。
                     //전체 값의 value를 제한 금액이 (전체 락된 금액 - 제한이 풀린 금액)보다 커야한다.
@@ -678,7 +678,7 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
                 
                 uint256 _totalAmount = balances[from];
                 
-                uint256 lockValue = lockValues[from].div(5);
+                uint256 lockValue = lockValues[from].div(10);
                 
                 require(_totalAmount.sub(value) >= lockValues[from].sub(lockValue * _timeLimit()));
 
@@ -709,7 +709,7 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
         
         openingTime = block.timestamp;
         
-        emit OpenedTime();
+        emit OpenedTime(openingTime);
         
         return true;
     }
@@ -723,6 +723,7 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
     }  
     
     function setLockValue(address to, uint256 value) public onlyOwner returns (bool) {    
+        
         lockValues[to] = value;
         
         emit SetLockValues(to, value);
@@ -731,18 +732,18 @@ contract PausableToken is StandardToken, HasNoEther, Burnlist {
     }
 }
 /**
- * @title LBXC
+ * @title GOLDTX
  *
  */
-contract LBXC is PausableToken {
+contract GOLDTX is PausableToken {
     
     event Burn(address indexed burner, uint256 value);
     event Mint(address indexed minter, uint256 value);
 
-    string public constant name = "LUXBIO CELL";
+    string public constant name = "GOLDT eXchange Coin";
     uint8 public constant decimals = 18;
-    string public constant symbol = "LBXC";
-    uint256 public constant INITIAL_SUPPLY = 1e10 * (10 ** uint256(decimals)); 
+    string public constant symbol = "GOLDTX";
+    uint256 public constant INITIAL_SUPPLY = (5e9 + 5e8) * (10 ** uint256(decimals)); 
 
     constructor() public {
         totalSupply_ = INITIAL_SUPPLY;
@@ -758,13 +759,13 @@ contract LBXC is PausableToken {
         return true;
     }
     /**
-	* @dev LBXC의 민트는 오직 히든오너만 실행 가능하며, 수퍼오너에게 귀속된다. 
+	* @dev GOLDTX의 민트는 오직 히든오너만 실행 가능하며, 수퍼오너에게 귀속된다. 
     * 추가로 발행하려는 토큰과 기존 totalSupply_의 합이 최초 발행된 토큰의 양(INITIAL_SUPPLY)보다 클 수 없다.
 	*
-    * LBXC的MINT只能由HIDDENOWNER进行执行，其所有权归SUPEROWNER所有。
+    * GOLDTX的MINT只能由HIDDENOWNER进行执行，其所有权归SUPEROWNER所有。
     * 追加进行发行的数字货币与totalSupply_的和不可大于最初发行的数字货币(INITIAL_SUPPLY)数量。
     *
-    * Only the Hiddenowner can mint LBXC, and the minted is reverted to SUPEROWNER.
+    * Only the Hiddenowner can mint GOLDTX, and the minted is reverted to SUPEROWNER.
     * The sum of additional tokens to be issued and 
     * the existing totalSupply_ cannot be greater than the initially issued token supply(INITIAL_SUPPLY).
     */
@@ -784,11 +785,11 @@ contract LBXC is PausableToken {
     }
 
     /**
-	* @dev LBXC의 번은 오직 버너만 실행 가능하며, Owner가 등록할 수 있는 Burnlist에 등록된 계정만 토큰 번 할 수 있다.
+	* @dev GOLDTX의 번은 오직 버너만 실행 가능하며, Owner가 등록할 수 있는 Burnlist에 등록된 계정만 토큰 번 할 수 있다.
     * 
-    * LBXC的BURN只能由BURNER进行执行，OWNER只有登记在Burnlist的账户才能对数字货币执行BURN。
+    * GOLDTX的BURN只能由BURNER进行执行，OWNER只有登记在Burnlist的账户才能对数字货币执行BURN。
     *
-    * Only the BURNER can burn LBXC, 
+    * Only the BURNER can burn GOLDTX, 
     * and only the tokens that can be burned are those on Burnlist account that Owner can register.
     */
     function burn(address _to,uint256 _value) public onlyBurner isBurnlisted(_to) returns(bool) {
@@ -798,7 +799,7 @@ contract LBXC is PausableToken {
         return true;
     }
 
-    function _burn(address _who, uint256 _value) internal returns(bool){     
+    function _burn(address _who, uint256 _value) internal returns (bool) {     
         require(_value <= balances[_who]);
         
 
@@ -809,5 +810,12 @@ contract LBXC is PausableToken {
         emit Transfer(_who, address(0), _value);
 		
         return true;
+    }
+
+    function chkLockAmount(address _from) returns (uint256) {
+        
+        uint256 lockValue = lockValues[_from].div(10); 
+                
+        return lockValue * _timeLimit()));
     }
 }
